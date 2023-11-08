@@ -5,6 +5,8 @@ let saveNoteBtn;
 let newNoteBtn;
 let noteList;
 
+/* Checking if the current page is the notes page (aka. the URL ends with /notes)
+If this is true, we assign the DOM elements to variables so they can be used here */
 if (window.location.pathname === '/notes') {
   noteForm = document.querySelector('.note-form');
   noteTitle = document.querySelector('.note-title');
@@ -14,13 +16,12 @@ if (window.location.pathname === '/notes') {
   clearBtn = document.querySelector('.clear-btn');
   noteList = document.querySelectorAll('.list-container .list-group');
 }
-
-// Show an element
+// Declaring variable to display HTML elements
 const show = (elem) => {
   elem.style.display = 'inline';
 };
 
-// Hide an element
+// Declaring variable to hide HTML elements
 const hide = (elem) => {
   elem.style.display = 'none';
 };
@@ -103,8 +104,12 @@ const handleNoteDelete = (e) => {
 
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
+  console.log('Clicked on note in the sidebar');
   e.preventDefault();
-  activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  e.stopPropagation(); 
+  const selectedNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
+  activeNote = { ...selectedNote };
+  // ^Making the selected note be the new 'active note'
   renderActiveNote();
 };
 
@@ -137,7 +142,7 @@ const renderNoteList = async (notes) => {
   let noteListItems = [];
 
   // Returns HTML element with or without a delete button
-  const createLi = (text, delBtn = true) => {
+  const createLi = (text, id, delBtn = true) => {
     const liEl = document.createElement('li');
     liEl.classList.add('list-group-item');
 
@@ -189,6 +194,14 @@ if (window.location.pathname === '/notes') {
   newNoteBtn.addEventListener('click', handleNewNoteView);
   clearBtn.addEventListener('click', renderActiveNote);
   noteForm.addEventListener('input', handleRenderBtns);
+
+  noteList.forEach((list) => {
+    list.addEventListener('click', (e) => {
+      if (e.target.classList.contains('delete-note')) {
+        handleNoteDelete(e);
+      }
+    });
+  });
 }
 
 getAndRenderNotes();
