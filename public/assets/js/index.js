@@ -26,9 +26,9 @@ const hide = (elem) => {
   elem.style.display = 'none';
 };
 
-// activeNote is used to keep track of the note in the textarea
+// Declaring an object variable that will be used to keep track of the note in the textarea
 let activeNote = {};
-
+// Declaring variable for a fetch request to GET notes from /notes
 const getNotes = () =>
   fetch('/api/notes', {
     method: 'GET',
@@ -36,7 +36,7 @@ const getNotes = () =>
       'Content-Type': 'application/json'
     }
   });
-
+// Declaring a varaible to save or POST notes to /notes
 const saveNote = (note) =>
   fetch('/api/notes', {
     method: 'POST',
@@ -45,7 +45,7 @@ const saveNote = (note) =>
     },
     body: JSON.stringify(note)
   });
-
+// Declaring variable to DELETE notes from /notes
 const deleteNote = (id) =>
   fetch(`/api/notes/${id}`, {
     method: 'DELETE',
@@ -53,11 +53,13 @@ const deleteNote = (id) =>
       'Content-Type': 'application/json'
     }
   });
-
+// Function to render the currently active note
 const renderActiveNote = () => {
+  // Removing the clear and save note buttons from view
   hide(saveNoteBtn);
   hide(clearBtn);
-
+  /* If there is an active note: display the new note button and set the input feilds to 
+  read-only. Input feild values are set to the activeNote's title and text*/
   if (activeNote.id) {
     show(newNoteBtn);
     noteTitle.setAttribute('readonly', true);
@@ -65,6 +67,7 @@ const renderActiveNote = () => {
     noteTitle.value = activeNote.title;
     noteText.value = activeNote.text;
   } else {
+    // If no activeNote, hide the new note button and make input feilds editable and cleared
     hide(newNoteBtn);
     noteTitle.removeAttribute('readonly');
     noteText.removeAttribute('readonly');
@@ -72,7 +75,8 @@ const renderActiveNote = () => {
     noteText.value = '';
   }
 };
-
+/* Function for saving a note: assigning the input values to newNote variable, and then using
+that variable in the saveNote funciton, we render all notes, including activeNote */
 const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
@@ -84,18 +88,19 @@ const handleNoteSave = () => {
   });
 };
 
-// Delete the clicked note
+// Function for deleting a clicked note
 const handleNoteDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
-
+  // Get the specific delete button clicked based off id of parent note
   const note = e.target;
   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
-
+  // If the current activeNote matches the selected note to be deleted, clear the activeNote object variable of value
   if (activeNote.id === noteId) {
     activeNote = {};
   }
-
+  // Entering our noteId into the delete function to remove the selected note
+  // The - re-rendering all notes, including active
   deleteNote(noteId).then(() => {
     getAndRenderNotes();
     renderActiveNote();
@@ -122,22 +127,31 @@ const handleNewNoteView = (e) => {
 
 // Renders the appropriate buttons based on the state of the form
 const handleRenderBtns = () => {
+  // showing clear button by default
   show(clearBtn);
+  // If input feilds are blank hide the clear button
   if (!noteTitle.value.trim() && !noteText.value.trim()) {
     hide(clearBtn);
+  // If either the title or text input is empty, hide save button
   } else if (!noteTitle.value.trim() || !noteText.value.trim()) {
     hide(saveNoteBtn);
+  // If both input areas have value, show the save note button
   } else {
     show(saveNoteBtn);
   }
 };
 
-// Render the list of note titles
+// Asynchronous function to render the list of notes
 const renderNoteList = async (notes) => {
+  // await for the JSON representation of notes to be retrieved from the server
   let jsonNotes = await notes.json();
+
+  // If the current page's path is /notes, clear the content of existing note list elements
   if (window.location.pathname === '/notes') {
     noteList.forEach((el) => (el.innerHTML = ''));
   }
+};
+
 
   let noteListItems = [];
 
