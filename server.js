@@ -6,7 +6,7 @@ const notes = require('./db/db.json');
 const {v4: uuidv4} = require('uuid'); // Using to give ID's to notes in db
 
 // Seeting up variable using express app and defining a port value
-const PORT = 3002;
+const PORT = process.env.PORT || 3002;
 const app = express();
 
 // Middleware for parsing JSON and URL encoded data
