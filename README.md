@@ -26,6 +26,8 @@ npm start
 
 ## Usage
 
-As a user of this application, I find myself with a lot of thoughts that I would liek to be able to organize and save digitally. With this app I am able to title each of my notes and type as much or a little into each as I want. If, while I am writing a note, I decide I would like to erase everything and start over I can simply select the 'clear form' button on the screen. Once I am satisfied with the note I have written, I can save it with the 'save note' button. I am always able to view the titles of my saved notes in a bar on the left of my screen, and if I select one of these notes it opens up for me to read. If I would like to delete a note I just need to select the trashcan icon for it. 
+As a user of this application, I find myself with a lot of thoughts that I would liek to be able to organize and save digitally. With this app I am able to title each of my notes and type as much or a little into each as I want. If, while I am writing a note, I decide I would like to erase everything and start over I can simply select the 'clear form' button on the screen. Once I am satisfied with the note I have written, I can save it with the 'save note' button. I am always able to view the titles of my saved notes in a bar on the left of my screen, and if I select one of these notes it opens up for me to read. If I would like to delete a note I just need to select the trashcan icon for it. Should I like to create a new note by selecting the test note, or new note button if viewing saved note.
 
 ## Deployed Application
+
+[Click here to use the application](https://notetaker-mmw18-90c45d738b00.herokuapp.com/)
